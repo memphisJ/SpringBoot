@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -42,10 +43,23 @@ public class ClienteController {
 		model.put("Titulo", "Formulario de Cliente");
 		return "form";
 	}
+
+	@RequestMapping(value = "form/{id}")
+	public String editar(@PathVariable(value="id") Long id, Map<String,Object> model){
+		Cliente cliente = null;
+		if (id > 0){
+			cliente = clienteDao.findOne(id);
+			model.put("cliente", cliente);
+		} else {
+			return "redirect:listar";
+		}
+		model.put("Titulo","Editar cliente");
+		return "form";
+	}
 	
 	/**
 	 * Este metodo recive los datos de la ventana de registro de cliente 
-	 * y lo envia al metodo de la DAO para hacer el respectivo regsitro 
+	 * y lo envia al metodo de la DAO para hacer el respectivo regsitro
 	 * en la BD.
 	 * @param cliente
 	 * @return
