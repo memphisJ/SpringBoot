@@ -14,11 +14,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 /**
  * Created by hmartinez on 4/3/2019.
  */
 @Controller
+@SessionAttributes("Cliente")  // Cada vez que se invoque a un metodo GET (crear o modificar) se almacenara a Cliente
+                               // en la sesion y lo pasara a la vista hasta que se envie al metodo guardar
 public class ClienteController {
 
     @Autowired
@@ -65,13 +69,13 @@ public class ClienteController {
 	 * @return
 	 */
 	@RequestMapping(value="/form", method=RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model) {
+	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus status) {
 		model.addAttribute("Titulo", "Formulario de Cliente");
 		if(result.hasErrors()) {
 			return "form";
 		}
-		
 		clienteDao.save(cliente);
+		status.setComplete();
 		return "redirect:listar";
 	}
 }
