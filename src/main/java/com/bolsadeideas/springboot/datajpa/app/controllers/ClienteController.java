@@ -55,7 +55,7 @@ public class ClienteController {
 			cliente = clienteDao.findOne(id);
 			model.put("cliente", cliente);
 		} else {
-			return "redirect:listar";
+			return "redirect:/listar";
 		}
 		model.put("Titulo","Editar cliente");
 		return "form";
@@ -78,4 +78,12 @@ public class ClienteController {
 		status.setComplete();
 		return "redirect:listar";
 	}
+
+	@RequestMapping(value = "/eliminar/{id}")
+	public String eliminar(@PathVariable(value="id") Long id){
+	    if(id != null && id > 0){
+	        clienteDao.delete(id);
+        }
+        return "redirect:/listar";
+    }
 }
