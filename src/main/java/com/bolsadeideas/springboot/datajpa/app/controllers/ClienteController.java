@@ -1,12 +1,12 @@
 package com.bolsadeideas.springboot.datajpa.app.controllers;
 
-import com.bolsadeideas.springboot.datajpa.app.model.dao.IClienteDao;
 import com.bolsadeideas.springboot.datajpa.app.model.entity.Cliente;
 
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.bolsadeideas.springboot.datajpa.app.model.service.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +26,12 @@ import org.springframework.web.bind.support.SessionStatus;
 public class ClienteController {
 
     @Autowired
-    private IClienteDao clienteDao;
+    private IClienteService clienteService;
 
     @RequestMapping(value = "listar", method = RequestMethod.GET)
     public String listar(Model model){
         model.addAttribute("titulo", "Listado de clientes");
-        model.addAttribute("clientes", clienteDao.findAll());
+        model.addAttribute("clientes", clienteService.findAll());
         return "listar";
     }
 
@@ -52,7 +52,7 @@ public class ClienteController {
 	public String editar(@PathVariable(value="id") Long id, Map<String,Object> model){
 		Cliente cliente = null;
 		if (id > 0){
-			cliente = clienteDao.findOne(id);
+			cliente = clienteService.findOne(id);
 			model.put("cliente", cliente);
 		} else {
 			return "redirect:/listar";
@@ -74,7 +74,7 @@ public class ClienteController {
 		if(result.hasErrors()) {
 			return "form";
 		}
-		clienteDao.save(cliente);
+		clienteService.save(cliente);
 		status.setComplete();
 		return "redirect:listar";
 	}
@@ -82,7 +82,7 @@ public class ClienteController {
 	@RequestMapping(value = "/eliminar/{id}")
 	public String eliminar(@PathVariable(value="id") Long id){
 	    if(id != null && id > 0){
-	        clienteDao.delete(id);
+	        clienteService.delete(id);
         }
         return "redirect:/listar";
     }
