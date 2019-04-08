@@ -1,5 +1,6 @@
 package com.bolsadeideas.springboot.datajpa.app.controllers;
 
+import com.bolsadeideas.springboot.datajpa.app.model.dao.IClienteDao;
 import com.bolsadeideas.springboot.datajpa.app.model.entity.Cliente;
 
 import java.util.Map;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.support.SessionStatus;
  * Created by hmartinez on 4/3/2019.
  */
 @Controller
-@SessionAttributes("Cliente")  // Cada vez que se invoque a un metodo GET (crear o modificar) se almacenara a Cliente
+@SessionAttributes("cliente")  // Cada vez que se invoque a un metodo GET (crear o modificar) se almacenara a Cliente
                                // en la sesion y lo pasara a la vista hasta que se envie al metodo guardar
 public class ClienteController {
 
