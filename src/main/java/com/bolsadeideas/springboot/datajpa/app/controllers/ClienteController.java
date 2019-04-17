@@ -83,9 +83,10 @@ public class ClienteController {
 		if(result.hasErrors()) {
 			return "form";
 		}
+		String mensajeFlash = cliente.getId()==null?"Cliente creado con exito":"Cliente modificado con exito";
 		clienteService.save(cliente);
 		status.setComplete();
-		flash.addFlashAttribute("success","Cliente creado con exito");
+		flash.addFlashAttribute("success",mensajeFlash);
 		return "redirect:listar";
 	}
 
